@@ -38,7 +38,7 @@ graph TD;
 ## 🛠️ Tecnologias Utilizadas
 
 * **Orquestração:** [LangChain](https://www.langchain.com/)
-* **LLM:** Google Gemini (`gemini-1.5-flash`)
+* **LLM:** Google Gemini (`gemini-3.6`)
 * **Embeddings:** Google Generative AI Embeddings (`gemini-embedding-001`)
 * **Vector Store:** [ChromaDB](https://www.trychroma.com/)
 * **Interface Web:** [Gradio](https://www.gradio.app/)
@@ -81,7 +81,7 @@ graph TD;
    Certifique-se de que o arquivo PDF do FAQ esteja salvo no diretório raiz do projeto ou ajuste o caminho indicado no notebook.
 
 5. **Iniciar a aplicação:**
-   Abra o notebook (`notebook.ipynb`) no seu ambiente de preferência e execute as células. Ao final, o link da interface do Gradio será exibido no console.
+   Abra o notebook (`Agente_IA_BimBam_Buy.ipynb`) no seu ambiente de preferência ou rode o python app.py no terminal e execute as células. Ao final, o link da interface do Gradio será exibido no console.
 
 ---
 
@@ -107,7 +107,50 @@ rag-bimbam-buy/
 
 ## 📌 Próximos Passos (Roadmap)
 
-- [ ] Implantação em produção (Oracle Cloud Infrastructure / OCI)
+- [x] Implantação em produção (Oracle Cloud Infrastructure / OCI)
 - [ ] Implementação de memória de histórico de conversas (Multi-turn chat)
 - [ ] Suporte a múltiplos arquivos/formatos de documentos
 - [ ] Aprimoramento da interface gráfica
+
+---
+
+💬 Exemplos de Uso
+
+Pergunta: Quais métodos de pagamento estão disponíveis?
+
+Resposta do agente:
+
+Com base no contexto fornecido, a BimBam Buy pode aceitar os seguintes métodos de pagamento (cuja disponibilidade pode variar por país, categoria, valor e configuração operacional):
+
+Cartão de crédito
+Cartão de débito
+Transferência bancária / PIX
+Pagamento em dinheiro em pontos habilitados (ex: Boleto)
+Carteiras digitais disponíveis por país
+Parcelamento ou financiamento, quando aplicável
+
+Pergunta 2: Como funciona o reembolso?
+
+Resposta do agente:
+
+Com base no contexto fornecido, o reembolso funciona da seguinte maneira:
+
+Gerenciamento: Os reembolsos decorrentes de devoluções, garantias ou cancelamentos aprovados são gerenciados conforme a Política de Reembolsos e Devoluções da BimBam Buy.
+Confirmações necessárias: Antes de processar o reembolso, a área de pagamentos pode exigir a confirmação de:
+Caso aprovado;
+Valor final;
+Meio original de pagamento;
+Status de captura ou conciliação;
+Restrição bancária ou regulatória.
+Cancelamentos antes do despacho: Se o pedido ainda não foi despachado, o pagamento pode ser revertido ou entrar em processo de estorno. Caso já tenha saído para distribuição, aplicam-se as regras de pós-venda e logística.
+
+---
+
+🌐 Deploy em Produção
+
+A aplicação está implantada e em funcionamento em uma instância gratuita (Always Free) da Oracle Cloud Infrastructure (OCI).
+
+🔗 Acesse a aplicação: http://144.22.194.156:7860
+
+ ![Aplicação em funcionamento](screenshot.png)
+ 
