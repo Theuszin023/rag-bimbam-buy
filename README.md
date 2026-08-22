@@ -1,76 +1,113 @@
-# RAG BimBam Buy
+# 🤖 RAG BimBam Buy — Assistente de FAQ
 
-Assistente de perguntas e respostas baseado em RAG (Retrieval-Augmented Generation), construído sobre o documento de FAQ de métodos de pagamento da BimBam Buy. O sistema busca os trechos mais relevantes do documento e usa um modelo de linguagem para gerar respostas contextualizadas, em vez de depender apenas do conhecimento geral do modelo.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+![LangChain](https://img.shields.io/badge/LangChain-Framework-green)
+![Gemini API](https://img.shields.io/badge/Google%20Gemini-API-orange?logo=google)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-VectorDB-purple)
 
-## Como funciona
+Assistente de perguntas e respostas baseado em **RAG (Retrieval-Augmented Generation)**, construído sobre o documento de FAQ de métodos de pagamento da BimBam Buy. O sistema busca os trechos mais relevantes do documento e usa o modelo Google Gemini para gerar respostas contextualizadas e precisas, eliminando alucinações e garantindo que as respostas fiquem restritas à base de conhecimento da empresa.
 
-1. O PDF do FAQ é carregado e dividido em pedaços menores (chunks).
-2. Cada chunk é transformado em um vetor numérico (embedding) que representa seu significado semântico.
-3. Os vetores são armazenados em um banco de dados vetorial (ChromaDB).
-4. Quando o usuário faz uma pergunta, o sistema busca os chunks mais parecidos semanticamente com a pergunta.
-5. Esses chunks são enviados como contexto para o modelo de linguagem (Gemini), que gera uma resposta baseada apenas nessas informações.
-6. Uma interface de chat (Gradio) permite conversar com o assistente pelo navegador.
+---
 
-## Tecnologias utilizadas
+<!-- Insira aqui um print ou GIF da sua interface rodando no Gradio -->
+<!-- ![Demonstração da Interface](.github/assets/demo.png) -->
 
-- **LangChain** — orquestração do pipeline de RAG
-- **Google Gemini** (`gemini-3.6-flash`) — geração das respostas
-- **Google Generative AI Embeddings** (`gemini-embedding-001`) — geração dos vetores semânticos
-- **ChromaDB** — banco de dados vetorial
-- **Gradio** — interface web de chat
-- **PyPDF** — leitura do documento PDF
+## 💡 Como Funciona
 
-## Como rodar
-
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/SEU_USUARIO/rag-bimbam-buy.git
-cd rag-bimbam-buy
+```mermaid
+graph TD;
+    A[PDF FAQ BimBam Buy] --> B[Divisão em Chunks]
+    B --> C[Geração de Embeddings]
+    C --> D[(ChromaDB)]
+    E[Pergunta do Usuário] --> F[Busca por Similaridade Semântica]
+    D --> F
+    F --> G[Contexto Relevante + Pergunta]
+    G --> H[Google Gemini LLM]
+    H --> I[Resposta Final na Interface Gradio]
 ```
 
-### 2. Instale as dependências
+1. **Processamento do Documento:** O PDF do FAQ é carregado e particionado em pedaços menores (chunks).
+2. **Vetorização:** Cada chunk é convertido em um vetor numérico (embedding semântico) via `gemini-embedding-001`.
+3. **Armazenamento:** Os vetores são indexados no banco de dados vetorial local **ChromaDB**.
+4. **Recuperação (Retrieval):** Ao receber uma dúvida do usuário, o sistema recupera os vetores mais próximos no banco.
+5. **Geração (Augmentation):** Os trechos resgatados servem de contexto único para que o modelo **Gemini** elabore a resposta final.
+6. **Interface:** Comunicação via chat interativo web usando **Gradio**.
 
-```bash
-pip install -r requirements.txt
-```
+---
 
-### 3. Configure sua API key do Google
+## 🛠️ Tecnologias Utilizadas
 
-Este projeto usa a API do Google Gemini. Você precisa de uma chave gratuita, obtida em [Google AI Studio](https://aistudio.google.com/apikey).
+* **Orquestração:** [LangChain](https://www.langchain.com/)
+* **LLM:** Google Gemini (`gemini-1.5-flash`)
+* **Embeddings:** Google Generative AI Embeddings (`gemini-embedding-001`)
+* **Vector Store:** [ChromaDB](https://www.trychroma.com/)
+* **Interface Web:** [Gradio](https://www.gradio.app/)
+* **Parsing de Documentos:** PyPDF
 
-Configure a variável de ambiente `GOOGLE_API_KEY` antes de rodar:
+---
 
-```bash
-export GOOGLE_API_KEY="sua_chave_aqui"
-```
+## 🚀 Como Executar o Projeto
 
-No Google Colab, use o recurso de **Secrets** (ícone de chave 🔑 no menu lateral) em vez de colar a chave diretamente no código.
+### Pré-requisitos
+* Python 3.10 ou superior
+* Uma API Key gratuita do Google Gemini (obtenha no [Google AI Studio](https://aistudio.google.com/apikey))
 
-### 4. Adicione o documento PDF
+### Passos
 
-Coloque o arquivo PDF do FAQ na pasta do projeto (ou ajuste o caminho no notebook para apontar para o local correto).
+1. **Clonar o repositório:**
+   ```bash
+   git clone https://github.com/SEU_USUARIO/rag-bimbam-buy.git
+   cd rag-bimbam-buy
+   ```
 
-### 5. Execute o notebook
+2. **Instalar dependências:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Abra o arquivo `.ipynb` no Jupyter, Colab ou VS Code e execute as células em ordem. Ao final, uma interface Gradio será iniciada, com um link local e um link público temporário.
+3. **Configurar a chave de API:**
+   * **Linux/macOS:**
+     ```bash
+     export GOOGLE_API_KEY="sua_chave_aqui"
+     ```
+   * **Windows (Command Prompt):**
+     ```cmd
+     set GOOGLE_API_KEY=sua_chave_aqui
+     ```
+   * **Google Colab:**
+     Adicione a chave no menu lateral em **Secrets** 🔑 com o nome `GOOGLE_API_KEY`.
 
-## Estrutura do projeto
+4. **Documento de entrada:**
+   Certifique-se de que o arquivo PDF do FAQ esteja salvo no diretório raiz do projeto ou ajuste o caminho indicado no notebook.
 
-```
+5. **Iniciar a aplicação:**
+   Abra o notebook (`notebook.ipynb`) no seu ambiente de preferência e execute as células. Ao final, o link da interface do Gradio será exibido no console.
+
+---
+
+## 📂 Estrutura do Repositório
+
+```text
 rag-bimbam-buy/
+├── .gitignore
 ├── README.md
 ├── requirements.txt
-├── .gitignore
-└── notebook.ipynb
+├── faq-bimbam-buy.pdf    # Arquivo de dados de contexto
+└── notebook.ipynb        # Pipeline completo de RAG
 ```
 
-## Aviso de segurança
+---
 
-Nunca cole sua API key diretamente no código ou no notebook. Use sempre variáveis de ambiente ou o gerenciador de secrets da plataforma que você estiver usando (Colab, GitHub Actions, etc.). O arquivo `.gitignore` deste projeto já está configurado para evitar o envio acidental de arquivos `.env` e chaves sensíveis ao repositório.
+## 🛡️ Segurança
 
-## Próximos passos
+* **Nunca insira sua chave API diretamente no código**. Use sempre variáveis de ambiente ou ferramentas de gerenciamento de segredos.
+* O arquivo `.gitignore` do repositório já está pré-configurado para ignorar arquivos de configuração locais e ambientes virtuais (`.env`, `venv/`, `.chroma/`).
 
-- [ ] Implantação em produção (OCI)
-- [ ] Melhorias na interface de usuário
-- [ ] Suporte a múltiplos documentos
+---
+
+## 📌 Próximos Passos (Roadmap)
+
+- [ ] Implantação em produção (Oracle Cloud Infrastructure / OCI)
+- [ ] Implementação de memória de histórico de conversas (Multi-turn chat)
+- [ ] Suporte a múltiplos arquivos/formatos de documentos
+- [ ] Aprimoramento da interface gráfica

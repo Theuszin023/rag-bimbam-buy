@@ -1,3 +1,7 @@
+__import__("pysqlite3")
+import sys
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
 import os
 import gradio as gr
 from langchain_community.document_loaders import PyPDFLoader
@@ -6,15 +10,14 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGener
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 
-# A chave é lida da variável de ambiente GOOGLE_API_KEY, configurada em
-# Settings > Secrets do Space (nunca cole a chave diretamente aqui).
+# A chave é lida da variável de ambiente GOOGLE_API_KEY.
 if not os.environ.get("GOOGLE_API_KEY"):
     raise ValueError(
-        "GOOGLE_API_KEY não encontrada. Configure-a em Settings > Secrets do seu Space."
+        "GOOGLE_API_KEY não encontrada. Configure-a como variável de ambiente antes de rodar."
     )
 
 # --- 1. Carregar o PDF e dividir em chunks ---
-NOME_DO_PDF = "documento.pdf"  # ajuste para o nome exato do seu arquivo PDF
+NOME_DO_PDF = "perguntas_frequentes.pdf"
 
 loader = PyPDFLoader(NOME_DO_PDF)
 documentos = loader.load()
@@ -31,7 +34,7 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 vectorstore = Chroma.from_documents(
     documents=chunks,
     embedding=embeddings,
-    persist_directory="/tmp/chroma_db"  # /tmp é gravável no Spaces
+    persist_directory="/tmp/chroma_db"
 )
 
 retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
@@ -96,4 +99,4 @@ interface = gr.ChatInterface(
 )
 
 if __name__ == "__main__":
-    interface.launch()
+    interface.launch(server_name="0.0.0.0", server_port=7860)
