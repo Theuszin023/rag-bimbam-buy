@@ -148,7 +148,7 @@ Cancelamentos antes do despacho: Se o pedido ainda não foi despachado, o pagame
 
 🌐 Deploy em Produção
 
-A aplicação está implantada e em funcionamento em uma instância gratuita (Always Free) da Oracle Cloud Infrastructure (OCI).
+A aplicação está desativada!
 
 🔗 Acesse a aplicação: http://144.22.194.156:7860
 
